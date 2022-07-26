@@ -1,24 +1,29 @@
-
-    <!-- start: Javascript -->
-    <script src="asset/js/jquery.min.js"></script>
-    <script src="asset/js/jquery.ui.min.js"></script>
-    <script src="asset/js/bootstrap.min.js"></script>
-   
-    
-    <!-- plugins -->
-    <script src="asset/js/plugins/moment.min.js"></script>
-    <script src="asset/js/plugins/fullcalendar.min.js"></script>
-    <script src="asset/js/plugins/jquery.nicescroll.js"></script>
-    <script src="asset/js/plugins/jquery.vmap.min.js"></script>
-    <script src="asset/js/plugins/maps/jquery.vmap.world.js"></script>
-    <script src="asset/js/plugins/jquery.vmap.sampledata.js"></script>
-    <script src="asset/js/plugins/chart.min.js"></script>
+<!-- start: Javascript -->
+<script src="asset/js/jquery.min.js"></script>
+<script src="asset/js/jquery.ui.min.js"></script>
+<script src="asset/js/bootstrap.min.js"></script>
 
 
-    <!-- custom -->
-     <script src="asset/js/main.js"></script>
-     <script type="text/javascript">
-      (function(jQuery){
+<!-- plugins -->
+<script src="asset/js/plugins/moment.min.js"></script>
+<script src="asset/js/plugins/fullcalendar.min.js"></script>
+<script src="asset/js/plugins/jquery.nicescroll.js"></script>
+<script src="asset/js/plugins/jquery.vmap.min.js"></script>
+<script src="asset/js/plugins/maps/jquery.vmap.world.js"></script>
+<script src="asset/js/plugins/jquery.vmap.sampledata.js"></script>
+<script src="asset/js/plugins/chart.min.js"></script>
+<script src="asset/js/plugins/jquery.datatables.min.js"></script>
+<script src="asset/js/plugins/datatables.bootstrap.min.js"></script>
+
+
+<!-- custom -->
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="asset/js/main.js"></script>
+<!-- sambungan -->
+@yield('footers')
+<script type="text/javascript">
+    (function(jQuery) {
 
         // start: Chart =============
 
@@ -72,7 +77,7 @@
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
-                 data: [18,9,5,7,4.5,4,5,4.5,6,5.6,7.5]
+                data: [18, 9, 5, 7, 4.5, 4, 5, 4.5, 6, 5.6, 7.5]
             }, {
                 label: "My Second dataset",
                 fillColor: "rgba(21,113,186,0.5)",
@@ -81,134 +86,131 @@
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [4,7,5,7,4.5,4,5,4.5,6,5.6,7.5]
+                data: [4, 7, 5, 7, 4.5, 4, 5, 4.5, 6, 5.6, 7.5]
             }]
         };
 
-        var doughnutData = [
-                {
-                    value: 300,
-                    color:"#129352",
-                    highlight: "#15BA67",
-                    label: "Alfa"
-                },
-                {
-                    value: 50,
-                    color: "#1AD576",
-                    highlight: "#15BA67",
-                    label: "Beta"
-                },
-                {
-                    value: 100,
-                    color: "#FDB45C",
-                    highlight: "#15BA67",
-                    label: "Gamma"
-                },
-                {
-                    value: 40,
-                    color: "#0F5E36",
-                    highlight: "#15BA67",
-                    label: "Peta"
-                },
-                {
-                    value: 120,
-                    color: "#15A65D",
-                    highlight: "#15BA67",
-                    label: "X"
-                }
+        var doughnutData = [{
+                value: 300,
+                color: "#129352",
+                highlight: "#15BA67",
+                label: "Alfa"
+            },
+            {
+                value: 50,
+                color: "#1AD576",
+                highlight: "#15BA67",
+                label: "Beta"
+            },
+            {
+                value: 100,
+                color: "#FDB45C",
+                highlight: "#15BA67",
+                label: "Gamma"
+            },
+            {
+                value: 40,
+                color: "#0F5E36",
+                highlight: "#15BA67",
+                label: "Peta"
+            },
+            {
+                value: 120,
+                color: "#15A65D",
+                highlight: "#15BA67",
+                label: "X"
+            }
 
-            ];
+        ];
 
 
-        var doughnutData2 = [
-                {
-                    value: 100,
-                    color:"#129352",
-                    highlight: "#15BA67",
-                    label: "Alfa"
-                },
-                {
-                    value: 250,
-                    color: "#FF6656",
-                    highlight: "#FF6656",
-                    label: "Beta"
-                },
-                {
-                    value: 100,
-                    color: "#FDB45C",
-                    highlight: "#15BA67",
-                    label: "Gamma"
-                },
-                {
-                    value: 40,
-                    color: "#FD786A",
-                    highlight: "#15BA67",
-                    label: "Peta"
-                },
-                {
-                    value: 120,
-                    color: "#15A65D",
-                    highlight: "#15BA67",
-                    label: "X"
-                }
+        var doughnutData2 = [{
+                value: 100,
+                color: "#129352",
+                highlight: "#15BA67",
+                label: "Alfa"
+            },
+            {
+                value: 250,
+                color: "#FF6656",
+                highlight: "#FF6656",
+                label: "Beta"
+            },
+            {
+                value: 100,
+                color: "#FDB45C",
+                highlight: "#15BA67",
+                label: "Gamma"
+            },
+            {
+                value: 40,
+                color: "#FD786A",
+                highlight: "#15BA67",
+                label: "Peta"
+            },
+            {
+                value: 120,
+                color: "#15A65D",
+                highlight: "#15BA67",
+                label: "X"
+            }
 
-            ];
+        ];
 
         var barChartData = {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
-                datasets: [
-                    {
-                        label: "My First dataset",
-                        fillColor: "rgba(21,186,103,0.4)",
-                        strokeColor: "rgba(220,220,220,0.8)",
-                        highlightFill: "rgba(21,186,103,0.2)",
-                        highlightStroke: "rgba(21,186,103,0.2)",
-                        data: [65, 59, 80, 81, 56, 55, 40]
-                    },
-                    {
-                        label: "My Second dataset",
-                        fillColor: "rgba(21,113,186,0.5)",
-                        strokeColor: "rgba(151,187,205,0.8)",
-                        highlightFill: "rgba(21,113,186,0.2)",
-                        highlightStroke: "rgba(21,113,186,0.2)",
-                        data: [28, 48, 40, 19, 86, 27, 90]
-                    }
-                ]
-            };
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                    label: "My First dataset",
+                    fillColor: "rgba(21,186,103,0.4)",
+                    strokeColor: "rgba(220,220,220,0.8)",
+                    highlightFill: "rgba(21,186,103,0.2)",
+                    highlightStroke: "rgba(21,186,103,0.2)",
+                    data: [65, 59, 80, 81, 56, 55, 40]
+                },
+                {
+                    label: "My Second dataset",
+                    fillColor: "rgba(21,113,186,0.5)",
+                    strokeColor: "rgba(151,187,205,0.8)",
+                    highlightFill: "rgba(21,113,186,0.2)",
+                    highlightStroke: "rgba(21,113,186,0.2)",
+                    data: [28, 48, 40, 19, 86, 27, 90]
+                }
+            ]
+        };
 
-         window.onload = function(){
-                var ctx = $(".doughnut-chart")[0].getContext("2d");
-                window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {
-                    responsive : true,
-                    showTooltips: true
-                });
+        // window.onload = function() {
+        //     var ctx = $(".doughnut-chart")[0].getContext("2d");
+        //     window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {
+        //         responsive: true,
+        //         showTooltips: true
+        //     });
 
-                var ctx2 = $(".line-chart")[0].getContext("2d");
-                window.myLine = new Chart(ctx2).Line(lineChartData, {
-                     responsive: true,
-                        showTooltips: true,
-                        multiTooltipTemplate: "<%= value %>",
-                     maintainAspectRatio: false
-                });
+        //     var ctx2 = $(".line-chart")[0].getContext("2d");
+        //     window.myLine = new Chart(ctx2).Line(lineChartData, {
+        //         responsive: true,
+        //         showTooltips: true,
+        //         multiTooltipTemplate: "<%= value %>",
+        //         maintainAspectRatio: false
+        //     });
 
-                var ctx3 = $(".bar-chart")[0].getContext("2d");
-                window.myLine = new Chart(ctx3).Bar(barChartData, {
-                     responsive: true,
-                        showTooltips: true
-                });
+        //     var ctx3 = $(".bar-chart")[0].getContext("2d");
+        //     window.myLine = new Chart(ctx3).Bar(barChartData, {
+        //         responsive: true,
+        //         showTooltips: true
+        //     });
 
-                var ctx4 = $(".doughnut-chart2")[0].getContext("2d");
-                window.myDoughnut2 = new Chart(ctx4).Doughnut(doughnutData2, {
-                    responsive : true,
-                    showTooltips: true
-                });
+        //     var ctx4 = $(".doughnut-chart2")[0].getContext("2d");
+        //     window.myDoughnut2 = new Chart(ctx4).Doughnut(doughnutData2, {
+        //         responsive: true,
+        //         showTooltips: true
+        //     });
 
-            };
-        
+        // };
+
         //  end:  Chart =============
 
         // start: Calendar =========
-         $('.dashboard .calendar').fullCalendar({
+        $('.dashboard .calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -217,8 +219,7 @@
             defaultDate: '2015-02-12',
             businessHours: true, // display business hours
             editable: true,
-            events: [
-                {
+            events: [{
                     title: 'Business Lunch',
                     start: '2015-02-03T13:00:00',
                     constraint: 'businessHours'
@@ -274,7 +275,7 @@
 
         // start: Maps============
 
-          jQuery('.maps').vectorMap({
+        jQuery('.maps').vectorMap({
             map: 'world_en',
             backgroundColor: null,
             color: '#fff',
@@ -289,8 +290,9 @@
 
         // end: Maps==============
 
-      })(jQuery);
-     </script>
-  <!-- end: Javascript -->
-  </body>
+    })(jQuery);
+</script>
+<!-- end: Javascript -->
+</body>
+
 </html>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,18 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
 
-Route::group(['middleware' => 'prevent-back-history'],function(){
+Route::group(['middleware' => ['auth','prevent-back-history']], function () {
+
+    Route::get('/', function () {
+        return view('auth.login');
+    });
 
     Auth::routes();
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    
-    Auth::routes();
-    
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+    // Resource Route for users.
+    Route::resource('users', UsersController::class);
+    Route::get('get-users', [UsersController::class, 'getUsers'])->name('get-users');
 });
