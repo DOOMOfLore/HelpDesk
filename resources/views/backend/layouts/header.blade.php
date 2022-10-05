@@ -4,11 +4,10 @@
 <head>
 
   <meta charset="utf-8">
-  <meta name="description" content="Miminium Admin Template v.1">
-  <meta name="author" content="Isna Nur Azis">
+  <meta name="description" content="HD">
   <meta name="keyword" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Miminium</title>
+  <title>HD</title>
 
   <!-- start: Css -->
   <link rel="stylesheet" type="text/css" href="assets/backend/css/bootstrap.min.css">
@@ -30,7 +29,7 @@
     <![endif]-->
 </head>
 
-<body id="mimin" class="dashboard">
+<body id="hd" class="dashboard">
   <!-- start: Header -->
   <nav class="navbar navbar-default header navbar-fixed-top">
     <div class="col-md-12 nav-wrapper">
@@ -41,7 +40,7 @@
           <span class="bottom"></span>
         </div>
         <a href="index.html" class="navbar-brand">
-          <b>MIMIN</b>
+          <b>Help Desk</b>
         </a>
 
         <ul class="nav navbar-nav navbar-right user-nav">
@@ -74,17 +73,21 @@
             <h1 class="animated fadeInLeft">21:00</h1>
             <p class="animated fadeInRight">Sat,October 1st 2029</p>
           </li>
-          <li class="active ripple">
+          <li class="ripple" id="dashboard-menu">
             <a class="tree-toggle nav-header"><span class="fa-home fa"></span> Dashboard
               <span class="fa-angle-right fa right-arrow text-right"></span>
             </a>
             <ul class="nav nav-list tree">
-              <li><a href="#">Dashboard</a></li>
+              <li><a href="{{ route('dashboard.index') }}" id="dashboard-menu">Dashboard</a></li>
             </ul>
           </li>
-          <li class="ripple"><a class="tree-toggle nav-header"><span class="fa fa-table"></span> Tables <span class="fa-angle-right fa right-arrow text-right"></span> </a>
+          <li class="ripple" id="users-menu">
+            <a class="tree-toggle nav-header">
+              <span class="fa fa-table"></span> Tables
+              <span class="fa-angle-right fa right-arrow text-right"></span>
+            </a>
             <ul class="nav nav-list tree">
-              <li><a href="{{ route('users.index') }}">Users</a></li>
+              <li><a href="{{ route('users.index') }}" id="users-menu" >Users</a></li>
             </ul>
           </li>
         </ul>
@@ -118,16 +121,16 @@
     <div class="mimin-mobile-menu-list">
       <div class="col-md-12 sub-mimin-mobile-menu-list animated fadeInLeft">
         <ul class="nav nav-list">
-          <li class="active ripple">
+          <li class="ripple" id="dashboard-menu">
             <a class="tree-toggle nav-header">
               <span class="fa-home fa"></span>Dashboard
               <span class="fa-angle-right fa right-arrow text-right"></span>
             </a>
             <ul class="nav nav-list tree">
-              <li><a href="#">Dashboard</a></li>
+              <li><a href="{{ route('dashboard.index') }}"  >Dashboard</a></li>
             </ul>
           </li>
-          <li class="ripple">
+          <li class="ripple" id="users-menu">
             <a class="tree-toggle nav-header">
               <span class="fa fa-table"></span>Tables
               <span class="fa-angle-right fa right-arrow text-right"></span>

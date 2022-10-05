@@ -30,6 +30,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
+            "app/Helpers/MainHelper.php",
             "app/Helpers/HTTPHelper.php",
             "app/Helpers/MSGHelper.php"
         ]

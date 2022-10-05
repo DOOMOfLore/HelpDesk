@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Users\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,8 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
     Route::group(['middleware' => ['role:Superadmin']], function () {
-        Route::resource('users', UsersController::class);
+        Route::apiResource('dashboard', DashboardController::class);
+        Route::get('get-users', [UsersController::class, 'getUsers'])->name('get-users');
+        Route::apiResource('users', UsersController::class);
     });
 });

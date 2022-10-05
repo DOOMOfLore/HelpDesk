@@ -101,12 +101,12 @@
             },
             success: function(data) {
                 Swal.fire({
-                    title: data.title,
+                    title: 'Success!',
                     text: data.message,
                     icon: 'success',
                     timer: '3000'
                 }).then(function() {
-                    window.location.href = "{{ route('users.index') }}";
+                    window.location.href = "{{ route('dashboard.index') }}";
                 });
             },
             error: function(error) {
