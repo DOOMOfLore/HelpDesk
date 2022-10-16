@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Storage;
 
 class DokumenController extends Controller
 {
+    public function index()
+    {
+        $kode = MainHelper::kode();
+        $categories = MainHelper::categories();
+        $main_menu = MainHelper::main_menu();
+
+        return view('welcome', compact(array('kode', 'categories', 'main_menu')));
+    }
+
     public static function check(Request $request)
     {
         $file = MainHelper::decrypt($request->file);

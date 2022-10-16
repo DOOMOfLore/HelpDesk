@@ -98,7 +98,6 @@
                     <div class="form-group">
                         <label for="description">Description:</label>
                         <textarea rows="4" cols="50" class="form-control" name="description" id="description" placeholder="Enter Description" required></textarea>
-                        <!-- <input type="text" class="form-control" name="description" id="description" placeholder="Enter Description" required> -->
                     </div>
 
                     <div class="form-group">
