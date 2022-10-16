@@ -5,7 +5,7 @@
     <div class="col-md-12">
         <div class="panel">
             <div class="panel-heading">
-                <h3>Data Tables User</h3>
+                <h3>Data Table Users</h3>
             </div>
             <div style="padding-top: 10px; padding-right:10px;">
                 <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm pr-4" type="button" onclick="resetfilter()">
@@ -84,8 +84,8 @@
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="SubmitCreateUserForm">Create</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="SubmitCreateUserForm">Create</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -107,8 +107,8 @@
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="SubmitEditUserForm">Update</button>
-                <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="SubmitEditUserForm">Update</button>
+                <button type="button" class="btn btn-default modelClose" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -117,13 +117,18 @@
 
 @section('footers')
 <script type="text/javascript">
-    function resetfilter() {
-        $('#users').DataTable().ajax.reload();
-    }
     //Active Class 
-    $("#User-menu").show(function() {
-        $title = $('#User-menu').addClass('active');
+    $("#users-menu").show(function() {
+        $('#users-menu').addClass('active');
+        $('#tables-menu').addClass('active');
     });
+    function resetfilter() {
+        // Refresh Datatable
+        $('#users').DataTable().ajax.reload();
+
+        // Remove all filter
+        $('#users').dataTable().fnFilter('');
+    }
 
     $(document).ready(function() {
         $('#users').DataTable({
@@ -207,6 +212,7 @@
                         timer: '1500'
                     })
                 });
+                console.log(error);
             }
         });
     });

@@ -7,6 +7,7 @@ use App\Helpers\MainHelper;
 use App\Helpers\MSGHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,14 +22,14 @@ class UsersController extends Controller
         $this->middleware('auth');
     }
 
-    protected $rules = [
+    public $rules = [
         'username' => 'required',
         'role' => 'required',
         'name' => 'required',
-        'email' => 'required|unique:pgsql.public.users,email',
+        'email' => 'required|unique:users,email',
         'password' => 'required|min:8|max:12',
     ];
-    protected $rules_updated = [
+    public $rules_updated = [
         'username' => 'required',
         'role' => 'required',
         'name' => 'required',
@@ -44,9 +45,18 @@ class UsersController extends Controller
     {
         $data = User::all();
         return DataTables::of($data)
+            ->addColumn('created_at', function ($data) {
+                $created_at = Carbon::parse($data->created_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $created_at;
+            })
+            ->addColumn('updated_at', function ($data) {
+                $updated_at = Carbon::parse($data->updated_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $updated_at;
+            })
             ->addColumn('Actions', function ($data) {
-                return '<button type="button" class="btn btn-success btn-sm" id="getEditData" data-id="' . MainHelper::encrypt($data->id) . '">Edit</button>
-                    <button type="button" data-id="' . MainHelper::encrypt($data->id) . '" data-toggle="modal" data-target="#DeleteUsersModel" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                return 
+                    '<i id="getEditData" data-id="' . MainHelper::encrypt($data->id) . '" class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" title="Edit"></i>
+                    <i data-id="' . MainHelper::encrypt($data->id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
             })
             ->rawColumns(['Actions'])
             ->make(true);
@@ -74,7 +84,10 @@ class UsersController extends Controller
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
         ];
+        
 
         $user = Auth::user()->id;
         $anEloquentModel = new User();

@@ -20,7 +20,7 @@ class CreateComplaintTable extends Migration
             $table->string('mps_user', 255);
             $table->string('main_menu', 255);
             $table->string('categories', 255);
-            $table->string('other_categories', 255);
+            $table->string('other_categories', 255)->nullable();
             $table->text('description');
             $table->string('request', 255);
             $table->string('reason', 255);
@@ -33,6 +33,7 @@ class CreateComplaintTable extends Migration
             $table->string('complaint_user_input', 255);
             $table->string('complaint_status', 255);
             $table->string('complaint_status_code', 255);
+            $table->string('is_active', 15);
             $table->timestamps();
         });
     }

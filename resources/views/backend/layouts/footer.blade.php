@@ -1,3 +1,19 @@
+{{-- modal global --}}
+<div id="modal-global" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">Large modal</h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 <!-- start: Javascript -->
 <script src="{{ asset('assets/backend/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/backend/js/jquery.ui.min.js') }}"></script>

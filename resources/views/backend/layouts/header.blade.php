@@ -7,7 +7,7 @@
   <meta name="description" content="HD">
   <meta name="keyword" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>HD</title>
+  <title>Help Desk</title>
 
   <!-- start: Css -->
   <link rel="stylesheet" type="text/css" href="assets/backend/css/bootstrap.min.css">
@@ -81,13 +81,46 @@
               <li><a href="{{ route('dashboard.index') }}" id="dashboard-menu">Dashboard</a></li>
             </ul>
           </li>
-          <li class="ripple" id="users-menu">
+          <li class="ripple" id="tables-menu">
             <a class="tree-toggle nav-header">
               <span class="fa fa-table"></span> Tables
               <span class="fa-angle-right fa right-arrow text-right"></span>
             </a>
             <ul class="nav nav-list tree">
-              <li><a href="{{ route('users.index') }}" id="users-menu" >Users</a></li>
+              <li><a href="{{ route('users.index') }}" id="users-menu">Users</a></li>
+            </ul>
+          </li>
+          <li class="ripple" id="master-menu">
+            <a class="tree-toggle nav-header">
+              <span class="fa fa-table"></span> Master
+              <span class="fa-angle-right fa right-arrow text-right"></span>
+            </a>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('categories.index') }}" id="categories-menu">Categories</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('main_menu.index') }}" id="main_menu-menu">Main Menu</a></li>
+            </ul>
+          </li>
+          <li class="ripple" id="complaint-menu">
+            <a class="tree-toggle nav-header">
+              <span class="fa fa-check-square-o"></span> Complaint
+              <span class="fa-angle-right fa right-arrow text-right"></span>
+            </a>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('complaint.index') }}" id="complaints-menu">All</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('release.index') }}" id="release-menu">Release</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('waiting_approval.index') }}" id="waitingapproval-menu">Waiting Approval</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('onprocess.index') }}" id="onprocess-menu">On Process</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('unapproved.index') }}" id="unapproved-menu">Unapproved</a></li>
             </ul>
           </li>
         </ul>
@@ -127,16 +160,49 @@
               <span class="fa-angle-right fa right-arrow text-right"></span>
             </a>
             <ul class="nav nav-list tree">
-              <li><a href="{{ route('dashboard.index') }}"  >Dashboard</a></li>
+              <li><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
             </ul>
           </li>
-          <li class="ripple" id="users-menu">
+          <li class="ripple" id="tables-menu">
             <a class="tree-toggle nav-header">
-              <span class="fa fa-table"></span>Tables
+              <span class="fa fa-table"></span> Tables
               <span class="fa-angle-right fa right-arrow text-right"></span>
             </a>
             <ul class="nav nav-list tree">
-              <li><a href="{{ route('users.index') }}">Users</a></li>
+              <li><a href="{{ route('users.index') }}" id="users-menu">Users</a></li>
+            </ul>
+          </li>
+          <li class="ripple" id="master-menu">
+            <a class="tree-toggle nav-header">
+              <span class="fa fa-table"></span> Master
+              <span class="fa-angle-right fa right-arrow text-right"></span>
+            </a>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('categories.index') }}" id="categories-menu">Categories</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('main_menu.index') }}" id="main_menu-menu">Main Menu</a></li>
+            </ul>
+          </li>
+          <li class="ripple" id="complaint-menu">
+            <a class="tree-toggle nav-header">
+              <span class="fa fa-check-square-o"></span> Complaint
+              <span class="fa-angle-right fa right-arrow text-right"></span>
+            </a>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('complaint.index') }}" id="complaints-menu">All</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('release.index') }}" id="release-menu">Release</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('waiting_approval.index') }}" id="waitingapproval-menu">Waiting Approval</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('onprocess.index') }}" id="onprocess-menu">On Process</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('unapproved.index') }}" id="unapproved-menu">Unapproved</a></li>
             </ul>
           </li>
         </ul>

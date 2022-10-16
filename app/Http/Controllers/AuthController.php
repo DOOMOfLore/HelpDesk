@@ -34,7 +34,7 @@ class AuthController extends Controller
 
             // check password
             $user = User::where('username', $username)
-                ->where('role', 'ilike', $role)
+                ->where('role', 'like', $role)
                 ->first();
 
             // check user password
