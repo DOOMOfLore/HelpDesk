@@ -39,7 +39,7 @@
           <span class="middle"></span>
           <span class="bottom"></span>
         </div>
-        <a href="index.html" class="navbar-brand">
+        <a href="{{ route('dashboard.index') }}" class="navbar-brand">
           <b>Help Desk</b>
         </a>
 
