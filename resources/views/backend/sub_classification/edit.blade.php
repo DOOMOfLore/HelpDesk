@@ -4,8 +4,8 @@
         <input type='hidden' id='encrypt_id' value='{{$encrypt_id}}'>
 
         <div class='form-group'>
-            <label for='categories'>Categories:</label>
-            <input type='text' class='form-control' name='categories' id='edit_categories' value="{{$data->categories}}" placeholder='Enter Categories' required>
+            <label for='sub_classification'>Sub Classification:</label>
+            <input type='text' class='form-control' name='sub_classification' id='edit_sub_classification' value="{{$data->sub_classification}}" placeholder='Enter Sub Classification' required>
         </div>
 
         <div class='form-group'>
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="SubmitEditCategoriesForm"> <i class="fa fa-check"></i> Update</button>
+        <button type="submit" class="btn btn-primary" id="SubmitEditsub_classificationForm"> <i class="fa fa-check"></i> Update</button>
         <button type="button" class="btn btn-default modelClose" data-dismiss="modal">Close</button>
     </div>
 </form>
@@ -29,10 +29,10 @@
             }
         });
         $.ajax({
-            url: "categories/" + id,
+            url: "sub_classification/" + id,
             method: 'PUT',
             data: {
-                categories: $('#edit_categories').val(),
+                sub_classification: $('#edit_sub_classification').val(),
                 description: $('#edit_description').val(),
             },
             success: function(result) {
@@ -41,7 +41,7 @@
                     result.message,
                     'success'
                 ).then(function() {
-                    $('#categories').DataTable().ajax.reload();
+                    $('#sub_classification').DataTable().ajax.reload();
                     $('#modal-global').modal('hide');
                 });
             },

@@ -8,8 +8,10 @@ use App\Helpers\MSGHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Carbon\Carbon;
+use Collective\Html\FormFacade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Validator;
@@ -54,7 +56,7 @@ class UsersController extends Controller
                 return $updated_at;
             })
             ->addColumn('Actions', function ($data) {
-                return 
+                return
                     '<i id="getEditData" data-id="' . MainHelper::encrypt($data->id) . '" class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" title="Edit"></i>
                     <i data-id="' . MainHelper::encrypt($data->id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
             })
@@ -87,7 +89,7 @@ class UsersController extends Controller
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
         ];
-        
+
 
         $user = Auth::user()->id;
         $anEloquentModel = new User();
@@ -119,6 +121,14 @@ class UsersController extends Controller
         $id = MainHelper::decrypt($id);
         $data = User::find($id);
 
+        $name = MainHelper::roles();
+        $getName = DB::table('roles')->where('name', $data->role)->first();
+        $selectedName = $getName->name;
+
+        // $status_code = MainHelper::status_code();
+        // $selectedstatus_code = Complaint::where('complaint_status_code', $data->complaint_status_code)->first();
+        // $selectedComplaint_status_code = $selectedstatus_code->complaint_status_code;
+
         $html = '<div class="form-group">
                     <label for="Username">Username:</label>
                     <input type="text" class="form-control" name="username" id="editUsername" value="' . $data->username . '">
@@ -127,15 +137,13 @@ class UsersController extends Controller
                     <label for="Name">Name:</label>
                     <input type="text" class="form-control" name="name" id="editName" value="' . $data->name . '">
                 </div>
+                
                 <div class="form-group">
-                    <label for="Role">Role:</label>
+                    <label for="role">Role:</label>
                     <input type="hidden" id="n_role" value="' . $data->role . '">
-                    <select class="form-control" name="role" id="editRole" placeholder="Role" required>
-                        <option value="' . $data->role . '">' . $data->role . '</option>
-                        <option value="Superadmin">Superadmin</option>
-                        <option value="Admin">Admin</option>
-                    </select>
+                    ' . FormFacade::select("role", $name, $selectedName, ["class" => "form-control", "id" => "editRole"]) . '
                 </div>
+
                 <div class="form-group">
                     <label for="Email">Email:</label>
                     <input type="email" class="form-control" name="email" id="editEmail" value="' . $data->email . '">
@@ -152,6 +160,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $id = MainHelper::decrypt($id);
         $source = User::where('email', $request->email)->get();
         $source_email = collect($source, true)->implode('email');
@@ -198,6 +207,8 @@ class UsersController extends Controller
                 ->log('Updated Users ( Different Email )');
             $update = User::find($id)->update($updated);
         }
+        $roles = User::find($id)->syncRoles($role);
+        // $user->syncRoles(['writer', 'admin']);
 
         if (!$update) return HTTPHelper::failed(MSGHelper::MSG_UPDATE_FAILED, 422);
         return HTTPHelper::success([], MSGHelper::MSG_UPDATE_SUCCESS);

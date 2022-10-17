@@ -23,7 +23,6 @@
     $('body').on('submit', '#form_edit', function(e) {
         e.preventDefault();
         id = $('#encrypt_id').val();
-        e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

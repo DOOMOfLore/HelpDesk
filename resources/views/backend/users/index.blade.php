@@ -21,6 +21,7 @@
                     <table id="users" class="table table-striped table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Username</th>
                                 <th>Name</th>
                                 <th>Role</th>
@@ -122,6 +123,7 @@
         $('#users-menu').addClass('active');
         $('#tables-menu').addClass('active');
     });
+
     function resetfilter() {
         // Refresh Datatable
         $('#users').DataTable().ajax.reload();
@@ -136,6 +138,10 @@
             serverSide: true,
             ajax: "{{ route('get-users') }}",
             columns: [{
+                    data: 'id',
+                    name: 'id',
+                    visible: false
+                }, {
                     data: 'username',
                     name: 'username',
                 },
@@ -166,6 +172,12 @@
                     searchable: false,
                     sClass: 'text-center'
                 },
+            ],
+            language: {
+                searchPlaceholder: "Search..."
+            },
+            order: [
+                [0, 'asc']
             ]
         });
     });

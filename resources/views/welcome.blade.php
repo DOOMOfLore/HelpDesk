@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('assets/backend/css/style.css') }}" />
     <!-- end: Css -->
 
-    <link rel="shortcut icon" href="asset/img/logomi.png">
+    <!-- <link rel="shortcut icon" href="asset/img/logomi.png"> -->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -206,7 +206,7 @@
                     }
                 });
                 $.ajax({
-                    url: "{{ route('complaint.store') }}",
+                    url: "{{ route('storecomplaint') }}",
                     method: 'POST',
                     data: formData,
                     processData: false,
@@ -218,6 +218,7 @@
                             result.message,
                             'success'
                         ).then(function() {
+                            resetForm();
                             location.reload();
                         });
                     },

@@ -63,23 +63,10 @@ class CategoriesController extends Controller
                     '<i class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" data-placement="top" title="Edit" id="getEdit" data-id="' . MainHelper::encrypt($data->categories_id) . '" onchange="validate(this)"></i>' .
                     '<i data-id="' . MainHelper::encrypt($data->categories_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
             })
-            ->editColumn('description', function($data) {
-                return is_null('') ? $data : $data->description;
-            })
             ->rawColumns(['Actions'])
             ->make(true);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -103,7 +90,7 @@ class CategoriesController extends Controller
 
 
         $user = Auth::user()->id;
-        $anEloquentModel = new User();
+        $anEloquentModel = new Categories();
         activity()
             ->performedOn($anEloquentModel)
             ->causedBy($user)
@@ -159,7 +146,7 @@ class CategoriesController extends Controller
         ];
 
         $user = Auth::user()->id;
-        $anEloquentModel = new User();
+        $anEloquentModel = new Categories();
 
         activity()
             ->performedOn($anEloquentModel)
@@ -185,7 +172,7 @@ class CategoriesController extends Controller
     {
         $id = MainHelper::decrypt($id);
         $user = Auth::user()->id;
-        $anEloquentModel = new User();
+        $anEloquentModel = new Categories();
         $data = Categories::find($id);
 
         $deleted = [

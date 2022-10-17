@@ -130,4 +130,12 @@ class MainHelper
         ];
         return $value;
     }
+
+    public static function roles()
+    {
+        $value =  DB::table('roles')->select('name')
+                 ->pluck('name', 'name');
+
+        return $value;
+    }
 }

@@ -23,7 +23,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-12 col-lg-10">
                     <div class="wrap d-md-flex">
-                        <div class="img" style="background-image: url(assets/login/images/bg-1.jpg);">
+                        <div class="img" style="background-image: url(assets/login/images/bg.png); background-size: contain;">
                         </div>
                         <div class="login-wrap p-4 p-md-5">
                             <div class="d-flex">
@@ -56,7 +56,6 @@
                             <div class="form-group">
                                 <button type="submit" class="form-control btn btn-primary rounded submit px-3" id="SignIn">Sign In</button>
                             </div>
-                            <p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>
                         </div>
                     </div>
                 </div>

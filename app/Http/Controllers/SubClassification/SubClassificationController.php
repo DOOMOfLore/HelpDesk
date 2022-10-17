@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\MainMenu;
+namespace App\Http\Controllers\SubClassification;
 
 use App\Helpers\HTTPHelper;
 use App\Helpers\MainHelper;
 use App\Helpers\MSGHelper;
 use App\Http\Controllers\Controller;
-use App\Models\MainMenu\MainMenu;
+use App\Models\SubClassification\SubClassification;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
-class MainMenuController extends Controller
+class SubClassificationController extends Controller
 {
     public function __construct()
     {
@@ -21,7 +21,7 @@ class MainMenuController extends Controller
     }
 
     protected $rules = [
-        'main_menu' => 'required',
+        'sub_classification' => 'required',
         'description' => '',
     ];
 
@@ -32,17 +32,18 @@ class MainMenuController extends Controller
      */
     public function index()
     {
-        return view('backend.mainmenu.index');
+        return view('backend.sub_classification.index');
     }
 
-    public function getMainMenu(Request $request)
-    {
-        $start = MainMenu::select('*')->where(['is_active' => '1']);
 
-        if(!empty($start)){
-            $data = MainMenu::select('*')->where(['is_active' => '1']);
-        }else{
-            $data = MainMenu::all();
+    public function getSubClassification(Request $request)
+    {
+        $start = SubClassification::select('*')->where(['is_active' => '1']);
+
+        if (!empty($start)) {
+            $data = SubClassification::select('*')->where(['is_active' => '1']);
+        } else {
+            $data = SubClassification::all();
         }
 
         return DataTables::of($data)
@@ -60,13 +61,13 @@ class MainMenuController extends Controller
             })
             ->addColumn('Actions', function ($data) {
                 return
-                    '<i class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" data-placement="top" title="Edit" id="getEdit" data-id="' . MainHelper::encrypt($data->main_menu_id) . '" onchange="validate(this)"></i>' .
-                    '<i data-id="' . MainHelper::encrypt($data->main_menu_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
+                    '<i class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" data-placement="top" title="Edit" id="getEdit" data-id="' . MainHelper::encrypt($data->sub_classification_id) . '"></i>' .
+                    '<i data-id="' . MainHelper::encrypt($data->sub_classification_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
             })
             ->rawColumns(['Actions'])
             ->make(true);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -77,11 +78,11 @@ class MainMenuController extends Controller
     {
         $validator = $this->validate($request, $this->rules);
 
-        $main_menu = $validator['main_menu'];
+        $sub_classification = $validator['sub_classification'];
         $description = $validator['description'];
 
         $created = [
-            'main_menu' => $main_menu,
+            'sub_classification' => $sub_classification,
             'description' => $description,
             'is_active' => '1',
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
@@ -90,16 +91,16 @@ class MainMenuController extends Controller
 
 
         $user = Auth::user()->id;
-        $anEloquentModel = new MainMenu();
+        $anEloquentModel = new SubClassification();
         activity()
             ->performedOn($anEloquentModel)
             ->causedBy($user)
             ->withProperties([
                 'attributes' => $created
             ])
-            ->log('Created New Main Menu');
+            ->log('Created New Sub Classification');
 
-        $create = MainMenu::create($created);
+        $create = SubClassification::create($created);
 
         if (!$create) return HTTPHelper::failed(MSGHelper::MSG_CREATE_FAILED, 422);
 
@@ -115,11 +116,11 @@ class MainMenuController extends Controller
     public function show($id)
     {
         $id = MainHelper::decrypt($id);
-        $data = MainMenu::find($id);
-        
+        $data = SubClassification::find($id);
+
         $encrypt_id = MainHelper::encrypt($id);
 
-        return view('backend.mainmenu.edit', compact(array('data','encrypt_id')));
+        return view('backend.sub_classification.edit', compact(array('data', 'encrypt_id')));
     }
 
     /**
@@ -134,19 +135,19 @@ class MainMenuController extends Controller
         $id = MainHelper::decrypt($id);
         $validator = $this->validate($request, $this->rules);
 
-        $data =  MainMenu::find($id);
-    
-        $main_menu = $validator['main_menu'];
+        $data =  SubClassification::find($id);
+
+        $sub_classification = $validator['sub_classification'];
         $description = $validator['description'];
 
         $updated = [
-            'main_menu' => $main_menu,
+            'sub_classification' => $sub_classification,
             'description' => $description,
             'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
         ];
 
         $user = Auth::user()->id;
-        $anEloquentModel = new MainMenu();
+        $anEloquentModel = new SubClassification();
 
         activity()
             ->performedOn($anEloquentModel)
@@ -154,9 +155,9 @@ class MainMenuController extends Controller
             ->withProperties([
                 'attributes' => $updated
             ])
-            ->log('Updated Main Menu');
+            ->log('Updated Sub Classification');
 
-        $update = MainMenu::find($id)->update($updated);
+        $update = SubClassification::find($id)->update($updated);
 
         if (!$update) return HTTPHelper::failed(MSGHelper::MSG_UPDATE_FAILED, 422);
         return HTTPHelper::success([], MSGHelper::MSG_UPDATE_SUCCESS);
@@ -172,8 +173,8 @@ class MainMenuController extends Controller
     {
         $id = MainHelper::decrypt($id);
         $user = Auth::user()->id;
-        $anEloquentModel = new MainMenu();
-        $data = MainMenu::find($id);
+        $anEloquentModel = new SubClassification();
+        $data = SubClassification::find($id);
 
         $deleted = [
             'is_active' => '0',
@@ -186,9 +187,9 @@ class MainMenuController extends Controller
             ->withProperties([
                 'attributes' => $data
             ])
-            ->log('Deleted Main Menu');
+            ->log('Deleted Sub Classification');
 
-            MainMenu::find($id)->update($deleted);
+            SubClassification::find($id)->update($deleted);
         return HTTPHelper::success([], MSGHelper::MSG_DELETE_SUCCESS);
     }
 }

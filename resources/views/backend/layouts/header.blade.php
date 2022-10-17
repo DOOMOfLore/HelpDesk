@@ -73,14 +73,31 @@
             <h1 class="animated fadeInLeft">21:00</h1>
             <p class="animated fadeInRight">Sat,October 1st 2029</p>
           </li>
+          @if (auth()->check())
+
+          @if (auth()->user()->isAdmin())
+
           <li class="ripple" id="dashboard-menu">
-            <a class="tree-toggle nav-header"><span class="fa-home fa"></span> Dashboard
+            <a class="tree-toggle nav-header">
+              <span class="fa-home fa"></span>Dashboard
               <span class="fa-angle-right fa right-arrow text-right"></span>
             </a>
             <ul class="nav nav-list tree">
-              <li><a href="{{ route('dashboard.index') }}" id="dashboard-menu">Dashboard</a></li>
+              <li><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
             </ul>
           </li>
+          @elseif (auth()->user()->isSuperadmin())
+
+          <li class="ripple" id="dashboard-menu">
+            <a class="tree-toggle nav-header">
+              <span class="fa-home fa"></span>Dashboard
+              <span class="fa-angle-right fa right-arrow text-right"></span>
+            </a>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
+            </ul>
+          </li>
+
           <li class="ripple" id="tables-menu">
             <a class="tree-toggle nav-header">
               <span class="fa fa-table"></span> Tables
@@ -99,7 +116,22 @@
               <li><a href="{{ route('categories.index') }}" id="categories-menu">Categories</a></li>
             </ul>
             <ul class="nav nav-list tree">
+              <li><a href="{{ route('classification.index') }}" id="classification-menu">Classification</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
               <li><a href="{{ route('main_menu.index') }}" id="main_menu-menu">Main Menu</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('pic.index') }}" id="pic-menu">PIC</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('status.index') }}" id="status-menu">Status</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('sub_classification.index') }}" id="sub_classification-menu">Sub Classification</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('user_input.index') }}" id="user_input-menu">User Input</a></li>
             </ul>
           </li>
           <li class="ripple" id="complaint-menu">
@@ -123,6 +155,8 @@
               <li><a href="{{ route('unapproved.index') }}" id="unapproved-menu">Unapproved</a></li>
             </ul>
           </li>
+          @endif
+          @endif
         </ul>
       </div>
     </div>
@@ -154,57 +188,88 @@
     <div class="mimin-mobile-menu-list">
       <div class="col-md-12 sub-mimin-mobile-menu-list animated fadeInLeft">
         <ul class="nav nav-list">
-          <li class="ripple" id="dashboard-menu">
-            <a class="tree-toggle nav-header">
-              <span class="fa-home fa"></span>Dashboard
-              <span class="fa-angle-right fa right-arrow text-right"></span>
-            </a>
-            <ul class="nav nav-list tree">
-              <li><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
-            </ul>
-          </li>
-          <li class="ripple" id="tables-menu">
-            <a class="tree-toggle nav-header">
-              <span class="fa fa-table"></span> Tables
-              <span class="fa-angle-right fa right-arrow text-right"></span>
-            </a>
-            <ul class="nav nav-list tree">
-              <li><a href="{{ route('users.index') }}" id="users-menu">Users</a></li>
-            </ul>
-          </li>
-          <li class="ripple" id="master-menu">
-            <a class="tree-toggle nav-header">
-              <span class="fa fa-table"></span> Master
-              <span class="fa-angle-right fa right-arrow text-right"></span>
-            </a>
-            <ul class="nav nav-list tree">
-              <li><a href="{{ route('categories.index') }}" id="categories-menu">Categories</a></li>
-            </ul>
-            <ul class="nav nav-list tree">
-              <li><a href="{{ route('main_menu.index') }}" id="main_menu-menu">Main Menu</a></li>
-            </ul>
-          </li>
-          <li class="ripple" id="complaint-menu">
-            <a class="tree-toggle nav-header">
-              <span class="fa fa-check-square-o"></span> Complaint
-              <span class="fa-angle-right fa right-arrow text-right"></span>
-            </a>
-            <ul class="nav nav-list tree">
-              <li><a href="{{ route('complaint.index') }}" id="complaints-menu">All</a></li>
-            </ul>
-            <ul class="nav nav-list tree">
-              <li><a href="{{ route('release.index') }}" id="release-menu">Release</a></li>
-            </ul>
-            <ul class="nav nav-list tree">
-              <li><a href="{{ route('waiting_approval.index') }}" id="waitingapproval-menu">Waiting Approval</a></li>
-            </ul>
-            <ul class="nav nav-list tree">
-              <li><a href="{{ route('onprocess.index') }}" id="onprocess-menu">On Process</a></li>
-            </ul>
-            <ul class="nav nav-list tree">
-              <li><a href="{{ route('unapproved.index') }}" id="unapproved-menu">Unapproved</a></li>
-            </ul>
-          </li>
+          @if (auth()->check())
+              @if (auth()->user()->isAdmin())
+
+              <li class="ripple" id="dashboard-menu">
+                <a class="tree-toggle nav-header"><span class="fa-home fa"></span> Dashboard
+                  <span class="fa-angle-right fa right-arrow text-right"></span>
+                </a>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('dashboard.index') }}" id="dashboard-menu">Dashboard</a></li>
+                </ul>
+              </li>
+
+              @elseif (auth()->user()->isSuperadmin())
+                
+              <li class="ripple" id="dashboard-menu">
+                <a class="tree-toggle nav-header"><span class="fa-home fa"></span> Dashboard
+                  <span class="fa-angle-right fa right-arrow text-right"></span>
+                </a>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('dashboard.index') }}" id="dashboard-menu">Dashboard</a></li>
+                </ul>
+              </li>
+              
+              <li class="ripple" id="tables-menu">
+                <a class="tree-toggle nav-header">
+                  <span class="fa fa-table"></span> Tables
+                  <span class="fa-angle-right fa right-arrow text-right"></span>
+                </a>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('users.index') }}" id="users-menu">Users</a></li>
+                </ul>
+              </li>
+              <li class="ripple" id="master-menu">
+                <a class="tree-toggle nav-header">
+                  <span class="fa fa-table"></span> Master
+                  <span class="fa-angle-right fa right-arrow text-right"></span>
+                </a>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('categories.index') }}" id="categories-menu">Categories</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('classification.index') }}" id="classification-menu">Classification</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('main_menu.index') }}" id="main_menu-menu">Main Menu</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('pic.index') }}" id="pic-menu">PIC</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('status.index') }}" id="status-menu">Status</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('sub_classification.index') }}" id="sub_classification-menu">Sub Classification</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('user_input.index') }}" id="user_input-menu">User Input</a></li>
+                </ul>
+              </li>
+              <li class="ripple" id="complaint-menu">
+                <a class="tree-toggle nav-header">
+                  <span class="fa fa-check-square-o"></span> Complaint
+                  <span class="fa-angle-right fa right-arrow text-right"></span>
+                </a>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('complaint.index') }}" id="complaints-menu">All</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('release.index') }}" id="release-menu">Release</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('waiting_approval.index') }}" id="waitingapproval-menu">Waiting Approval</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('onprocess.index') }}" id="onprocess-menu">On Process</a></li>
+                </ul>
+                <ul class="nav nav-list tree">
+                  <li><a href="{{ route('unapproved.index') }}" id="unapproved-menu">Unapproved</a></li>
+                </ul>
+              </li>
+              @endif
+          @endif
         </ul>
       </div>
     </div>

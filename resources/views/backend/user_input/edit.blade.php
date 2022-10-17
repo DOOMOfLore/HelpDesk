@@ -4,17 +4,12 @@
         <input type='hidden' id='encrypt_id' value='{{$encrypt_id}}'>
 
         <div class='form-group'>
-            <label for='categories'>Categories:</label>
-            <input type='text' class='form-control' name='categories' id='edit_categories' value="{{$data->categories}}" placeholder='Enter Categories' required>
-        </div>
-
-        <div class='form-group'>
-            <label for='description'>Description:</label>
-            <textarea rows='4' cols='50' class='form-control' name='description' id='edit_description' value="{{$data->description}}" placeholder='Enter Description'>{{$data->description}}</textarea>
+            <label for='user_input'>User Input:</label>
+            <input type='text' class='form-control' name='user_input' id='edit_user_input' value="{{$data->user_input}}" placeholder='Enter User Input' required>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="SubmitEditCategoriesForm"> <i class="fa fa-check"></i> Update</button>
+        <button type="submit" class="btn btn-primary" id="SubmitEdituser_inputForm"> <i class="fa fa-check"></i> Update</button>
         <button type="button" class="btn btn-default modelClose" data-dismiss="modal">Close</button>
     </div>
 </form>
@@ -29,11 +24,10 @@
             }
         });
         $.ajax({
-            url: "categories/" + id,
+            url: "user_input/" + id,
             method: 'PUT',
             data: {
-                categories: $('#edit_categories').val(),
-                description: $('#edit_description').val(),
+                user_input: $('#edit_user_input').val(),
             },
             success: function(result) {
                 Swal.fire(
@@ -41,7 +35,7 @@
                     result.message,
                     'success'
                 ).then(function() {
-                    $('#categories').DataTable().ajax.reload();
+                    $('#user_input').DataTable().ajax.reload();
                     $('#modal-global').modal('hide');
                 });
             },
