@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class StatusController extends Controller
@@ -21,7 +22,7 @@ class StatusController extends Controller
     }
 
     protected $rules = [
-        'status' => 'required',
+        'status' => 'required|unique:status,status',
         'description' => '',
     ];
 
@@ -132,7 +133,11 @@ class StatusController extends Controller
     public function update(Request $request, $id)
     {
         $id = MainHelper::decrypt($id);
-        $validator = $this->validate($request, $this->rules);
+
+        $validator = $request->validate([
+            'status' => ['required', Rule::unique('status')->ignore($id, 'status_id')],
+            'description' => '',
+        ]);
 
         $data =  Status::find($id);
 

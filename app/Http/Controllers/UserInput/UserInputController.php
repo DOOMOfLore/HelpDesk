@@ -10,6 +10,7 @@ use App\Models\UserInput\UserInput;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserInputController extends Controller
@@ -20,7 +21,7 @@ class UserInputController extends Controller
     }
 
     protected $rules = [
-        'user_input' => 'required',
+        'user_input' => 'required|unique:user_input,user_input',
     ];
 
     /**
@@ -124,7 +125,10 @@ class UserInputController extends Controller
     public function update(Request $request, $id)
     {
         $id = MainHelper::decrypt($id);
-        $validator = $this->validate($request, $this->rules);
+
+        $validator = $request->validate([
+            'user_input' => ['required', Rule::unique('user_input')->ignore($id, 'user_input_id')],
+        ]);
 
         $data =  UserInput::find($id);
 

@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class MainMenuController extends Controller
@@ -21,7 +22,7 @@ class MainMenuController extends Controller
     }
 
     protected $rules = [
-        'main_menu' => 'required',
+        'main_menu' => 'required|unique:main_menu,main_menu',
         'description' => '',
     ];
 
@@ -132,7 +133,11 @@ class MainMenuController extends Controller
     public function update(Request $request, $id)
     {
         $id = MainHelper::decrypt($id);
-        $validator = $this->validate($request, $this->rules);
+        
+        $validator = $request->validate([
+            'main_menu' => ['required', Rule::unique('main_menu')->ignore($id, 'main_menu_id')],
+            'description' => '',
+        ]);
 
         $data =  MainMenu::find($id);
     

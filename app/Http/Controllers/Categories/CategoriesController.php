@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Validation\Rule;
 
 class CategoriesController extends Controller
 {
@@ -21,7 +22,7 @@ class CategoriesController extends Controller
     }
 
     protected $rules = [
-        'categories' => 'required',
+        'categories' => 'required|unique:categories,categories',
         'description' => '',
     ];
 
@@ -39,9 +40,9 @@ class CategoriesController extends Controller
     {
         $start = Categories::select('*')->where(['is_active' => '1']);
 
-        if(!empty($start)){
+        if (!empty($start)) {
             $data = Categories::select('*')->where(['is_active' => '1']);
-        }else{
+        } else {
             $data = Categories::all();
         }
 
@@ -66,7 +67,7 @@ class CategoriesController extends Controller
             ->rawColumns(['Actions'])
             ->make(true);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -116,10 +117,10 @@ class CategoriesController extends Controller
     {
         $id = MainHelper::decrypt($id);
         $data = Categories::find($id);
-        
+
         $encrypt_id = MainHelper::encrypt($id);
 
-        return view('backend.categories.edit', compact(array('data','encrypt_id')));
+        return view('backend.categories.edit', compact(array('data', 'encrypt_id')));
     }
 
     /**
@@ -132,10 +133,14 @@ class CategoriesController extends Controller
     public function update(Request $request, $id)
     {
         $id = MainHelper::decrypt($id);
-        $validator = $this->validate($request, $this->rules);
+
+        $validator = $request->validate([
+            'categories' => ['required', Rule::unique('categories')->ignore($id, 'categories_id')],
+            'description' => '',
+        ]);
 
         $data =  Categories::find($id);
-    
+        
         $categories = $validator['categories'];
         $description = $validator['description'];
 
@@ -188,7 +193,7 @@ class CategoriesController extends Controller
             ])
             ->log('Deleted Categories');
 
-            Categories::find($id)->update($deleted);
+        Categories::find($id)->update($deleted);
         return HTTPHelper::success([], MSGHelper::MSG_DELETE_SUCCESS);
     }
 }

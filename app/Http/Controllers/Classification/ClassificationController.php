@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class ClassificationController extends Controller
@@ -21,7 +22,7 @@ class ClassificationController extends Controller
     }
 
     protected $rules = [
-        'classification' => 'required',
+        'classification' => 'required|unique:classification,classification',
         'description' => '',
     ];
 
@@ -133,7 +134,11 @@ class ClassificationController extends Controller
     public function update(Request $request, $id)
     {
         $id = MainHelper::decrypt($id);
-        $validator = $this->validate($request, $this->rules);
+
+        $validator = $request->validate([
+            'classification' => ['required', Rule::unique('classification')->ignore($id, 'classification_id')],
+            'description' => '',
+        ]);
 
         $data =  Classification::find($id);
 

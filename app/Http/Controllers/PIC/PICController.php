@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class PICController extends Controller
@@ -21,7 +22,7 @@ class PICController extends Controller
     }
 
     protected $rules = [
-        'pic' => 'required',
+        'pic' => 'required|unique:pic,pic',
     ];
 
     /**
@@ -125,7 +126,10 @@ class PICController extends Controller
     public function update(Request $request, $id)
     {
         $id = MainHelper::decrypt($id);
-        $validator = $this->validate($request, $this->rules);
+        
+        $validator = $request->validate([
+            'pic' => ['required', Rule::unique('pic')->ignore($id, 'pic_id')],
+        ]);
 
         $data =  PIC::find($id);
 

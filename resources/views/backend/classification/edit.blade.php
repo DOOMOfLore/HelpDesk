@@ -20,7 +20,7 @@
 </form>
 
 <script type="text/javascript">
-    $('body').on('submit', '#form_edit', function(e) {
+    $("#form_edit").submit(function(e) {
         e.preventDefault();
         id = $('#encrypt_id').val();
         $.ajaxSetup({
