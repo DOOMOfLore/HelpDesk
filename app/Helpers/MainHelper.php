@@ -3,7 +3,9 @@
 namespace App\Helpers;
 
 use App\Models\Categories\Categories;
+use App\Models\Complaint\Complaint;
 use App\Models\MainMenu\MainMenu;
+use App\Models\Status\Status;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -122,19 +124,39 @@ class MainHelper
 
     public static function status_code()
     {
-        $value = [
-            'release' => 'release',
-            'waiting approval' => 'waiting approval',
-            'on process' => 'on process',
-            'unapproved' => 'unapproved'
-        ];
+        $value = Status::select('status')
+            ->where('is_active', 1)
+            // ->pluck('status', 'status');
+            ->pluck('status');
+        return $value;
+    }
+
+    public static function Release()
+    {
+        $where = array('Waiting for Approval', 'On Proses');
+        
+        $value = Status::select('status')
+            ->whereIn('status', $where)
+            // ->pluck('status', 'status');
+            ->pluck('status');
+        return $value;
+    }
+    
+    public static function OnProgress()
+    {
+        $where = array('Solved', 'Unapproved');
+        
+        $value = Status::select('status')
+            ->whereIn('status', $where)
+            // ->pluck('status', 'status');
+            ->pluck('status');
         return $value;
     }
 
     public static function roles()
     {
         $value =  DB::table('roles')->select('name')
-                 ->pluck('name', 'name');
+            ->pluck('name', 'name');
 
         return $value;
     }

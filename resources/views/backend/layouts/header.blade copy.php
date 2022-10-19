@@ -134,38 +134,27 @@
               <li><a href="{{ route('user_input.index') }}" id="user_input-menu">User Input</a></li>
             </ul>
           </li>
-              <li class="ripple" id="complaint-menu">
-                <a class="tree-toggle nav-header">
-                  <span class="fa fa-check-square-o"></span> Complaint
-                  <span class="fa-angle-right fa right-arrow text-right"></span>
-                </a>
-                <ul class="nav nav-list tree">
-                  <li><a href="{{ route('complaint.index') }}" id="complaints-menu">All</a></li>
-                </ul>
-                <ul class="nav nav-list tree">
-                  <li><a href="{{ route('complaint.release') }}" id="release-menu">Release</a></li>
-                </ul>
-                <ul class="nav nav-list tree">
-                  <li>
-                    <a href="{{ route('complaint.waitingapproval') }}" id="waitingapproval-menu">Waiting for Approval</a>
-                  </li>
-                </ul>
-                <ul class="nav nav-list tree">
-                  <li>
-                    <a href="{{ route('complaint.onprocess') }}" id="onprocess-menu">On Proses</a>
-                  </li>
-                </ul>
-                <ul class="nav nav-list tree">
-                  <li>
-                    <a href="{{ route('complaint.solved') }}" id="solved-menu">Solved</a>
-                  </li>
-                </ul>
-                <ul class="nav nav-list tree">
-                  <li>
-                    <a href="{{ route('complaint.unapproved') }}" id="unapproved-menu">Unapproved</a>
-                  </li>
-                </ul>
-              </li>
+          <li class="ripple" id="complaint-menu">
+            <a class="tree-toggle nav-header">
+              <span class="fa fa-check-square-o"></span> Complaint
+              <span class="fa-angle-right fa right-arrow text-right"></span>
+            </a>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('complaint.index') }}" id="complaints-menu">All</a></li>
+            </ul>
+            <!-- <ul class="nav nav-list tree">
+              <li><a href="{{ route('release.index') }}" id="release-menu">Release</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('waiting_approval.index') }}" id="waitingapproval-menu">Waiting Approval</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('onprocess.index') }}" id="onprocess-menu">On Process</a></li>
+            </ul>
+            <ul class="nav nav-list tree">
+              <li><a href="{{ route('unapproved.index') }}" id="unapproved-menu">Unapproved</a></li>
+            </ul> -->
+          </li>
           @endif
           @endif
         </ul>
@@ -266,29 +255,18 @@
                 <ul class="nav nav-list tree">
                   <li><a href="{{ route('complaint.index') }}" id="complaints-menu">All</a></li>
                 </ul>
-                <ul class="nav nav-list tree">
-                  <li><a href="{{ route('complaint.release') }}" id="release-menu">Release</a></li>
+                <!-- <ul class="nav nav-list tree">
+                  <li><a href="{{ route('release.index') }}" id="release-menu">Release</a></li>
                 </ul>
                 <ul class="nav nav-list tree">
-                  <li>
-                    <a href="{{ route('complaint.waitingapproval') }}" id="wfa-menu">Waiting for Approval</a>
-                  </li>
+                  <li><a href="{{ route('waiting_approval.index') }}" id="waitingapproval-menu">Waiting Approval</a></li>
                 </ul>
                 <ul class="nav nav-list tree">
-                  <li>
-                    <a href="{{ route('complaint.onprocess') }}" id="op-menu">On Proses</a>
-                  </li>
+                  <li><a href="{{ route('onprocess.index') }}" id="onprocess-menu">On Process</a></li>
                 </ul>
                 <ul class="nav nav-list tree">
-                  <li>
-                    <a href="{{ route('complaint.solved') }}" id="solved-menu">Solved</a>
-                  </li>
-                </ul>
-                <ul class="nav nav-list tree">
-                  <li>
-                    <a href="{{ route('complaint.unapproved') }}" id="up-menu">Unapproved</a>
-                  </li>
-                </ul>
+                  <li><a href="{{ route('unapproved.index') }}" id="unapproved-menu">Unapproved</a></li>
+                </ul> -->
               </li>
               @endif
           @endif

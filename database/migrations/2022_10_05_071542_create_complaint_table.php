@@ -33,6 +33,7 @@ class CreateComplaintTable extends Migration
             $table->string('complaint_user_input', 255);
             $table->string('complaint_status', 255);
             $table->string('complaint_status_code', 255);
+            $table->text('treatment')->nullable();
             $table->string('is_active', 15);
             $table->timestamps();
         });

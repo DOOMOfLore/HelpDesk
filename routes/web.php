@@ -4,10 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Categories\CategoriesController;
 use App\Http\Controllers\Classification\ClassificationController;
 use App\Http\Controllers\Complaint\ComplaintController;
-use App\Http\Controllers\Complaint\OnProcessController;
-use App\Http\Controllers\Complaint\ReleaseController;
-use App\Http\Controllers\Complaint\UnapprovedController;
-use App\Http\Controllers\Complaint\WaitingApprovalController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\MainMenu\MainMenuController;
@@ -56,14 +52,16 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
             //complaint
             Route::apiResource('complaint', ComplaintController::class);
             Route::get('get-complaint-all', [ComplaintController::class, 'getComplaint'])->name('get-complaint-all');
-            Route::apiResource('release', ReleaseController::class);
-            Route::get('get-release-all', [ReleaseController::class, 'getRelease'])->name('get-release-all');
-            Route::apiResource('waiting_approval', WaitingApprovalController::class);
-            Route::get('get-waitingapproval-all', [WaitingApprovalController::class, 'getWaitingApproval'])->name('get-waitingapproval-all');
-            Route::apiResource('onprocess', OnProcessController::class);
-            Route::get('get-onprocess-all', [OnProcessController::class, 'getonprocess'])->name('get-onprocess-all');
-            Route::apiResource('unapproved', UnapprovedController::class);
-            Route::get('get-unapproved-all', [UnapprovedController::class, 'getunapproved'])->name('get-unapproved-all');
+            Route::get('release', [ComplaintController::class, 'release'])->name('complaint.release');
+            Route::get('get-release-all', [ComplaintController::class, 'getRelease'])->name('get-release-all');
+            Route::get('waitingapproval', [ComplaintController::class, 'waitingapproval'])->name('complaint.waitingapproval');
+            Route::get('get-waitingapproval-all', [ComplaintController::class, 'getWaitingApproval'])->name('get-waitingapproval-all');
+            Route::get('onprocess', [ComplaintController::class, 'onprocess'])->name('complaint.onprocess');
+            Route::get('get-onprocess-all', [ComplaintController::class, 'getonprocess'])->name('get-onprocess-all');
+            Route::get('unapproved', [ComplaintController::class, 'unapproved'])->name('complaint.unapproved');
+            Route::get('get-unapproved-all', [ComplaintController::class, 'getunapproved'])->name('get-unapproved-all');
+            Route::get('solved', [ComplaintController::class, 'solved'])->name('complaint.solved');
+            Route::get('get-solved-all', [ComplaintController::class, 'getsolved'])->name('get-solved-all');
 
             //categories
             Route::apiResource('categories', CategoriesController::class);

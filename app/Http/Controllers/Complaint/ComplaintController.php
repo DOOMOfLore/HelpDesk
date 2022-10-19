@@ -9,18 +9,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Categories\Categories;
 use App\Models\Complaint\Complaint;
 use App\Models\MainMenu\MainMenu;
-use App\Models\User;
+use App\Models\Status\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
 class ComplaintController extends Controller
 {
+    public $models;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->models = new Complaint;
     }
 
     protected $rules = [
@@ -35,6 +36,7 @@ class ComplaintController extends Controller
         'reason' => 'required',
         'file' => 'required|mimes:pdf,jpg,jpeg,png',
     ];
+
     protected $rules_update = [
         'complaint_name' => 'required',
         'code_request' => 'required',
@@ -46,6 +48,8 @@ class ComplaintController extends Controller
         'request' => 'required',
         'reason' => 'required',
         'status_code' => '',
+        'status_complaint' => '',
+        'treatment' => '',
     ];
 
     /**
@@ -59,16 +63,227 @@ class ComplaintController extends Controller
         $categories = MainHelper::categories();
         $main_menu = MainHelper::main_menu();
 
-        return view('backend.complaint.all.index', compact(array('kode', 'categories', 'main_menu')));
+        return view('backend.complaint.index', compact(array('kode', 'categories', 'main_menu')));
     }
+
+    public function release()
+    {
+        $kode = MainHelper::kode();
+        $categories = MainHelper::categories();
+        $main_menu = MainHelper::main_menu();
+
+        return view('backend.complaint.release', compact(array('kode', 'categories', 'main_menu')));
+    }
+
+    public function waitingapproval()
+    {
+        $kode = MainHelper::kode();
+        $categories = MainHelper::categories();
+        $main_menu = MainHelper::main_menu();
+
+        return view('backend.complaint.waitingapproval', compact(array('kode', 'categories', 'main_menu')));
+    }
+
+    public function onprocess()
+    {
+        $kode = MainHelper::kode();
+        $categories = MainHelper::categories();
+        $main_menu = MainHelper::main_menu();
+
+        return view('backend.complaint.onprocess', compact(array('kode', 'categories', 'main_menu')));
+    }
+
+    public function unapproved()
+    {
+        $kode = MainHelper::kode();
+        $categories = MainHelper::categories();
+        $main_menu = MainHelper::main_menu();
+
+        return view('backend.complaint.unapproved', compact(array('kode', 'categories', 'main_menu')));
+    }
+
+    public function solved()
+    {
+        $kode = MainHelper::kode();
+        $categories = MainHelper::categories();
+        $main_menu = MainHelper::main_menu();
+
+        return view('backend.complaint.solved', compact(array('kode', 'categories', 'main_menu')));
+    }
+
 
     public function getComplaint(Request $request)
     {
 
-        $start = Complaint::select('*')->where(['is_active' => '1']);
+        $start = Complaint::select('*')->where('is_active', '1')->get();
 
         if (!empty($start)) {
-            $data = Complaint::select('*')->where(['is_active' => '1']);
+            $data = Complaint::select('*')->where('is_active', '1')->get();
+        } else {
+            $data = Complaint::all();
+        }
+
+        return DataTables::of($data)
+            ->addColumn('description', function ($data) {
+                $description = substr($data->description, 0, 100);
+                return $description;
+            })
+            ->addColumn('created_at', function ($data) {
+                $created_at = Carbon::parse($data->created_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $created_at;
+            })
+            ->addColumn('updated_at', function ($data) {
+                $updated_at = Carbon::parse($data->updated_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $updated_at;
+            })
+            ->addColumn('Actions', function ($data) {
+                return
+                    '<i class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" data-placement="top" title="Edit" id="getEdit" data-id="' . MainHelper::encrypt($data->complaint_id) . '" onchange="validate(this)"></i>' .
+                    '<i data-id="' . MainHelper::encrypt($data->complaint_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
+            })
+            ->rawColumns(['Actions'])
+            ->make(true);
+    }
+
+    public function getRelease(Request $request)
+    {
+
+        $start = Complaint::select('*')->where('is_active', '1')->get();
+
+        if (!empty($start)) {
+            $data = $this->models->release();
+        } else {
+            $data = Complaint::all();
+        }
+
+        return DataTables::of($data)
+            ->addColumn('description', function ($data) {
+                $description = substr($data->description, 0, 100);
+                return $description;
+            })
+            ->addColumn('created_at', function ($data) {
+                $created_at = Carbon::parse($data->created_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $created_at;
+            })
+            ->addColumn('updated_at', function ($data) {
+                $updated_at = Carbon::parse($data->updated_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $updated_at;
+            })
+            ->addColumn('Actions', function ($data) {
+                return
+                    '<i class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" data-placement="top" title="Edit" id="getEdit" data-id="' . MainHelper::encrypt($data->complaint_id) . '" onchange="validate(this)"></i>' .
+                    '<i data-id="' . MainHelper::encrypt($data->complaint_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
+            })
+            ->rawColumns(['Actions'])
+            ->make(true);
+    }
+
+    public function getWaitingApproval(Request $request)
+    {
+
+        $start = Complaint::select('*')->where('is_active', '1')->get();
+
+        if (!empty($start)) {
+            $data = $this->models->waitingapproval();
+        } else {
+            $data = Complaint::all();
+        }
+
+        return DataTables::of($data)
+            ->addColumn('description', function ($data) {
+                $description = substr($data->description, 0, 100);
+                return $description;
+            })
+            ->addColumn('created_at', function ($data) {
+                $created_at = Carbon::parse($data->created_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $created_at;
+            })
+            ->addColumn('updated_at', function ($data) {
+                $updated_at = Carbon::parse($data->updated_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $updated_at;
+            })
+            ->addColumn('Actions', function ($data) {
+                return
+                    '<i class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" data-placement="top" title="Edit" id="getEdit" data-id="' . MainHelper::encrypt($data->complaint_id) . '" onchange="validate(this)"></i>' .
+                    '<i data-id="' . MainHelper::encrypt($data->complaint_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
+            })
+            ->rawColumns(['Actions'])
+            ->make(true);
+    }
+
+    public function getonprocess(Request $request)
+    {
+
+        $start = Complaint::select('*')->where('is_active', '1')->get();
+
+        if (!empty($start)) {
+            $data = $this->models->onprocess();
+        } else {
+            $data = Complaint::all();
+        }
+
+        return DataTables::of($data)
+            ->addColumn('description', function ($data) {
+                $description = substr($data->description, 0, 100);
+                return $description;
+            })
+            ->addColumn('created_at', function ($data) {
+                $created_at = Carbon::parse($data->created_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $created_at;
+            })
+            ->addColumn('updated_at', function ($data) {
+                $updated_at = Carbon::parse($data->updated_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $updated_at;
+            })
+            ->addColumn('Actions', function ($data) {
+                return
+                    '<i class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" data-placement="top" title="Edit" id="getEdit" data-id="' . MainHelper::encrypt($data->complaint_id) . '" onchange="validate(this)"></i>' .
+                    '<i data-id="' . MainHelper::encrypt($data->complaint_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
+            })
+            ->rawColumns(['Actions'])
+            ->make(true);
+    }
+
+    public function getunapproved(Request $request)
+    {
+
+        $start = Complaint::select('*')->where('is_active', '1')->get();
+
+        if (!empty($start)) {
+            $data = $this->models->unapproved();
+        } else {
+            $data = Complaint::all();
+        }
+
+        return DataTables::of($data)
+            ->addColumn('description', function ($data) {
+                $description = substr($data->description, 0, 100);
+                return $description;
+            })
+            ->addColumn('created_at', function ($data) {
+                $created_at = Carbon::parse($data->created_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $created_at;
+            })
+            ->addColumn('updated_at', function ($data) {
+                $updated_at = Carbon::parse($data->updated_at)->setTimezone('Asia/Jakarta')->format("Y-m-d H:i:s");
+                return $updated_at;
+            })
+            ->addColumn('Actions', function ($data) {
+                return
+                    '<i class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" data-placement="top" title="Edit" id="getEdit" data-id="' . MainHelper::encrypt($data->complaint_id) . '" onchange="validate(this)"></i>' .
+                    '<i data-id="' . MainHelper::encrypt($data->complaint_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
+            })
+            ->rawColumns(['Actions'])
+            ->make(true);
+    }
+
+    public function getsolved(Request $request)
+    {
+
+        $start = Complaint::select('*')->where('is_active', '1')->get();
+
+        if (!empty($start)) {
+            $data = $this->models->solved();
         } else {
             $data = Complaint::all();
         }
@@ -132,8 +347,8 @@ class ComplaintController extends Controller
         $complaint_pic = 'default';
         $complaint_treatment = 'default';
         $complaint_user_input = 'default';
-        $complaint_status = 'release';
-        $complaint_status_code = 'release';
+        $complaint_status = 'Release';
+        $complaint_status_code = 'Release';
 
         $today = Carbon::now()->setTimezone('Asia/Jakarta')->format("Y-m-d g:i:s A");
         // Array containing search string
@@ -175,7 +390,7 @@ class ComplaintController extends Controller
 
 
         $user = Auth::user()->id;
-        $anEloquentModel = new User();
+        $anEloquentModel = new Complaint();
         activity()
             ->performedOn($anEloquentModel)
             ->causedBy($user)
@@ -217,7 +432,21 @@ class ComplaintController extends Controller
         $selectedstatus_code = Complaint::where('complaint_status_code', $data->complaint_status_code)->first();
         $selectedComplaint_status_code = $selectedstatus_code->complaint_status_code;
 
-        return view('backend.complaint.all.edit', compact(array('data', 'encrypt_id', 'main_menu', 'selectedIDMainMenu', 'categories', 'selectedIDCategories', 'status_code', 'selectedComplaint_status_code')));
+        $Release = MainHelper::Release();
+        $OnProgress = MainHelper::OnProgress();
+
+        return view('backend.complaint.edit', compact(array('data', 'encrypt_id', 'main_menu', 'selectedIDMainMenu', 'categories', 'selectedIDCategories', 'status_code', 'selectedComplaint_status_code', 'OnProgress', 'Release')));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
     }
 
     /**
@@ -229,48 +458,43 @@ class ComplaintController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request);
         $id = MainHelper::decrypt($id);
         $validator = $this->validate($request, $this->rules_update);
+
         $data =  Complaint::find($id);
 
-        $status_code = MainHelper::convertValueToLowerCase($validator['status_code']);
+        $status_complaint = MainHelper::convertValueToLowerCase($request->status_complaint);
 
-        if ($status_code == 'release') {
-
-            $release = [
-                'complaint_status' => 'release',
-                'complaint_status_code' => 'release',
-            ];
-
-            $update = Complaint::find($id)->update($release);
+        if ($status_complaint == 'solved' || $status_complaint == 'unapproved') {
+            if (!$data->treatment) {
+                // dd('kesini');
+                $validators = $this->validate($request, ['treatment' => 'required']);
+                $updated = [
+                    'treatment' => $validators['treatment'],
+                ];
+                $update = Complaint::find($id)->update($updated);
+            }else{
+                // dd('gamasuk');
+                $validators = $this->validate($request, ['treatment' => 'required']);
+                $updated = [
+                    'treatment' => $validators['treatment'],
+                ];
+                $update = Complaint::find($id)->update($updated);
+            }
         }
 
-        if ($status_code == 'waiting approval') {
-            $waiting_approval = [
-                'complaint_status' => 'on progress',
-                'complaint_status_code' => 'waiting approval',
+        $status_complaint = $validator['status_complaint'];
+        $request_status_code = $validator['status_code'];
+        $Getstatus = Status::select('status')->where('status', $request_status_code)->first();
+        $status_code = collect($Getstatus, true)->implode('status_code');
+
+        if ($request_status_code == $status_code) {
+            $updated = [
+                'complaint_status' => $status_complaint,
+                'complaint_status_code' => $request_status_code,
             ];
 
-            $update = Complaint::find($id)->update($waiting_approval);
-        }
-
-        if ($status_code == 'on process') {
-            $onprocess = [
-                'complaint_status' => 'on progress',
-                'complaint_status_code' => 'on process',
-            ];
-
-            $update = Complaint::find($id)->update($onprocess);
-        }
-
-        if ($status_code == 'unapproved') {
-            $unapproved = [
-                'complaint_status' => 'unapproved',
-                'complaint_status_code' => 'unapproved',
-            ];
-
-            $update = Complaint::find($id)->update($unapproved);
+            $update = Complaint::find($id)->update($updated);
         }
 
         $complaint_name = $validator['complaint_name'];
@@ -311,7 +535,7 @@ class ComplaintController extends Controller
         ];
 
         $user = Auth::user()->id;
-        $anEloquentModel = new User();
+        $anEloquentModel = new Complaint();
 
         activity()
             ->performedOn($anEloquentModel)
@@ -336,8 +560,7 @@ class ComplaintController extends Controller
     public function destroy($id)
     {
         $id = MainHelper::decrypt($id);
-        $user = Auth::user()->id;
-        $anEloquentModel = new User();
+
         $data = Complaint::find($id);
 
         $deleted = [
@@ -345,6 +568,8 @@ class ComplaintController extends Controller
             'updated_at' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
         ];
 
+        $user = Auth::user()->id;
+        $anEloquentModel = new Complaint();
         activity()
             ->performedOn($anEloquentModel)
             ->causedBy($user)

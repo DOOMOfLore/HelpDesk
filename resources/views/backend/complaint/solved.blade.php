@@ -5,22 +5,23 @@
     <div class="col-md-12">
         <div class="panel">
             <div class="panel-heading">
-                <h3>Datatable On Process</h3>
+                <h3>Data Solved</h3>
             </div>
             <div style="padding-top: 10px; padding-right:10px;">
                 <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm pr-4" type="button" onclick="resetfilter()">
                     Reset Filter
                 </button>
                 <!-- <button style="float: right; font-weight: 900;" class="btn btn-success btn-sm" type="button" data-toggle="modal" data-target="#CreateComplaintModal">
-                    Create Complaint
+                    Create New Complaint
                 </button> -->
             </div>
             <div style="padding-top: 10px; padding-right:10px;"></div>
             <div class="panel-body">
                 <div class="responsive-table">
-                    <table id="onprocess" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                    <table id="complaint" class="table table-striped table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
+                                <th>Complaint ID</th>
                                 <th>Complaint Name</th>
                                 <th>Code Request</th>
                                 <th>Mps User</th>
@@ -46,14 +47,12 @@
 </div>
 
 <!-- Create User Modal -->
-<div class="modal" id="CreateComplaintModal">
+<!-- <div class="modal" id="CreateComplaintModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">Complaint Create</h4>
             </div>
-            <!-- Modal body -->
             <form id="form_create" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
 
@@ -89,7 +88,6 @@
                             @endforeach
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="other_categories">Other Categories:</label>
                         <input type="text" class="form-control" name="other_categories" id="other_categories" placeholder="Enter Other Categories">
@@ -98,7 +96,6 @@
                     <div class="form-group">
                         <label for="description">Description:</label>
                         <textarea rows="4" cols="50" class="form-control" name="description" id="description" placeholder="Enter Description" required></textarea>
-                        <!-- <input type="text" class="form-control" name="description" id="description" placeholder="Enter Description" required> -->
                     </div>
 
                     <div class="form-group">
@@ -116,7 +113,6 @@
                         <input type="file" class="form-control-file" name="file" id="file" accept="image/*,.pdf" placeholder="Enter Picture" required>
                     </div>
                 </div>
-                <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -124,17 +120,18 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->
+
 @endsection
 
 @section('footers')
 <script type="text/javascript">
     function resetfilter() {
         // Refresh Datatable
-        $('#onprocess').DataTable().ajax.reload();
+        $('#complaint').DataTable().ajax.reload();
 
         // Remove all filter
-        $('#onprocess').dataTable().fnFilter('');
+        $('#complaint').dataTable().fnFilter('');
     }
 
     function resetForm() {
@@ -143,15 +140,19 @@
     //Active Class 
     $("#complaint-menu").show(function() {
         $('#complaint-menu').addClass('active');
-        $('#onprocess-menu').addClass('active');
+        $('#solved-menu').addClass('active');
     });
 
     $(document).ready(function() {
-        $('#onprocess').DataTable({
+        $('#complaint').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('get-onprocess-all') }}",
+            ajax: "{{ route('get-solved-all') }}",
             columns: [{
+                    data: 'complaint_id',
+                    name: 'complaint_id',
+                    visible: false
+                }, {
                     data: 'complaint_name',
                     name: 'complaint_name'
                 },
@@ -234,7 +235,7 @@
             }
         });
         $.ajax({
-            url: "{{ route('onprocess.store') }}",
+            url: "{{ route('complaint.store') }}",
             method: 'POST',
             data: formData,
             processData: false,
@@ -246,7 +247,7 @@
                     result.message,
                     'success'
                 ).then(function() {
-                    resetfilter();
+                    $('#complaint').DataTable().ajax.reload();
                     $('#CreateComplaintModal').modal('hide');
                     resetForm();
                 });
@@ -269,11 +270,8 @@
         // e.preventDefault();
         id = $(this).data('id');
         $.ajax({
-            url: "onprocess/" + id,
+            url: "complaint/" + id,
             type: "GET",
-            // data: {
-            //     id: _id
-            // },
             contentType: 'application/x-www-form-urlencoded',
             beforeSend: function(data, v) {
                 $('#modal-title').html('Edit Complaint');
@@ -288,7 +286,6 @@
             }
         });
     });
-
 
     // Delete User Ajax request.
     var deleteID;
@@ -319,7 +316,7 @@
                             'Your file has been deleted.',
                             'success'
                         )
-                        resetfilter();
+                        $('#complaint').DataTable().ajax.reload();
                     }
                 });
             }

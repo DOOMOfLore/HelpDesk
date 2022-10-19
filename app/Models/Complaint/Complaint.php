@@ -33,7 +33,38 @@ class Complaint extends Model
         'complaint_status',
         'complaint_status_code',
         'is_active',
+        'treatment',
         'created_at',
         'updated_at',
     ];
+
+    public static function release()
+    {
+        $data = Complaint::select('*')->where('complaint_status_code', 'LIKE', '%release%')->where('is_active', '1')->get();
+        return $data;
+    }
+
+    public static function waitingapproval()
+    {
+        $data = Complaint::select('*')->where('complaint_status_code', 'LIKE', '%Waiting for Approval%')->where('is_active', '1')->get();
+        return $data;
+    }
+
+    public static function onprocess()
+    {
+        $data = Complaint::select('*')->where('complaint_status_code', 'LIKE', '%On Proses%')->where('is_active', '1')->get();
+        return $data;
+    }
+
+    public static function unapproved()
+    {
+        $data = Complaint::select('*')->where('complaint_status_code', 'LIKE', '%Unapproved%')->where('is_active', '1')->get();
+        return $data;
+    }
+
+    public static function solved()
+    {
+        $data = Complaint::select('*')->where('complaint_status_code','LIKE','%Solved%')->where('is_active','1')->get();
+        return $data;
+    }
 }

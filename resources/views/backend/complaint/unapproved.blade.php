@@ -5,15 +5,15 @@
     <div class="col-md-12">
         <div class="panel">
             <div class="panel-heading">
-                <h3>Datatable Complaint</h3>
+                <h3>Data Unapproved</h3>
             </div>
             <div style="padding-top: 10px; padding-right:10px;">
                 <button style="float: right; font-weight: 900;" class="btn btn-info btn-sm pr-4" type="button" onclick="resetfilter()">
                     Reset Filter
                 </button>
-                <button style="float: right; font-weight: 900;" class="btn btn-success btn-sm" type="button" data-toggle="modal" data-target="#CreateComplaintModal">
-                    Create Complaint
-                </button>
+                <!-- <button style="float: right; font-weight: 900;" class="btn btn-success btn-sm" type="button" data-toggle="modal" data-target="#CreateComplaintModal">
+                    Create New Complaint
+                </button> -->
             </div>
             <div style="padding-top: 10px; padding-right:10px;"></div>
             <div class="panel-body">
@@ -47,14 +47,12 @@
 </div>
 
 <!-- Create User Modal -->
-<div class="modal" id="CreateComplaintModal">
+<!-- <div class="modal" id="CreateComplaintModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">Complaint Create</h4>
             </div>
-            <!-- Modal body -->
             <form id="form_create" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
 
@@ -115,7 +113,6 @@
                         <input type="file" class="form-control-file" name="file" id="file" accept="image/*,.pdf" placeholder="Enter Picture" required>
                     </div>
                 </div>
-                <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -123,32 +120,8 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->
 
-<!-- Edit User Modal -->
-<div class="modal" id="EditComplaintModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Complaint Edit</h4>
-            </div>
-            <!-- Modal body -->
-            <form id="form_edit" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div id="EditComplaintModalBody">
-
-                    </div>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="SubmitEditComplaintForm">Update</button>
-                    <button type="button" class="btn btn-default modelClose" data-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('footers')
@@ -167,14 +140,14 @@
     //Active Class 
     $("#complaint-menu").show(function() {
         $('#complaint-menu').addClass('active');
-        $('#complaints-menu').addClass('active');
+        $('#unapproved-menu').addClass('active');
     });
 
     $(document).ready(function() {
         $('#complaint').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('get-complaint-all') }}",
+            ajax: "{{ route('get-unapproved-all') }}",
             columns: [{
                     data: 'complaint_id',
                     name: 'complaint_id',
@@ -274,8 +247,9 @@
                     result.message,
                     'success'
                 ).then(function() {
+                    $('#complaint').DataTable().ajax.reload();
                     $('#CreateComplaintModal').modal('hide');
-                    location.reload();
+                    resetForm();
                 });
             },
             error: function(error) {
@@ -292,42 +266,15 @@
         });
     });
 
-    function modal(id) {
-        $('#modal-global').modal('show');
-        var id;
-        alert(id);
-        // $.ajax({
-        //     url: "complaint/" + id,
-        //     type: "GET",
-        //     // data: {
-        //     //     id: _id
-        //     // },
-        //     contentType: 'application/x-www-form-urlencoded',
-        //     beforeSend: function(data, v) {
-        //         $('#modal-title').html('Edit');
-        //         $('#modal-body').html('<div align="center"><p>Loading ...</p></div>');
-        //     },
-        //     error: function(data, v) {
-        //         $('#modal-body').html('Terjadi kesalahan..');
-        //     },
-        //     success: function(data, v) {
-        //         $('#modal-body').html(data);
-        //     }
-        // });
-    };
-
     $('body').on('click', '#getEdit', function(e) {
         // e.preventDefault();
         id = $(this).data('id');
         $.ajax({
             url: "complaint/" + id,
             type: "GET",
-            // data: {
-            //     id: _id
-            // },
             contentType: 'application/x-www-form-urlencoded',
             beforeSend: function(data, v) {
-                $('#modal-title').html('Edit');
+                $('#modal-title').html('Edit Complaint');
                 $('#modal-body').html('<div align="center"><p>Loading ...</p></div>');
             },
             error: function(data, v) {
@@ -336,74 +283,6 @@
             success: function(data, v) {
                 $('#modal-body').html(data);
                 $('#modal-global').modal('show');
-            }
-        });
-    });
-
-    // Get single User in EditModel
-    $('.modelClose').on('click', function() {
-        $('#EditComplaintModal').hide();
-    });
-    var id;
-    $('body').on('click', '#getEditData', function(e) {
-        // e.preventDefault();
-        id = $(this).data('id');
-        $.ajax({
-            url: "complaint/" + id,
-            method: 'GET',
-            // data: {
-            //     id: id,
-            // },
-            success: function(result) {
-                $('#EditComplaintModalBody').html(result.html);
-                $('#EditComplaintModal').show();
-            }
-        });
-    });
-
-    // Update User Ajax request.
-    $('#SubmitEditComplaintForm').click(function(e) {
-        e.preventDefault();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: "complaint/" + id,
-            method: 'PUT',
-            data: {
-                complaint_name: $('#edit_complaint_name').val(),
-                code_request: $('#edit_code_request').val(),
-                mps_user: $('#edit_mps_user').val(),
-                main_menu: $('#edit_main_menu').val(),
-                categories: $('#edit_categories').val(),
-                other_categories: $('#edit_other_categories').val(),
-                description: $('#edit_description').val(),
-                request: $('#edit_request').val(),
-                reason: $('#edit_reason').val(),
-                file: $('#edit_file').val(),
-                filename: $('#filename').val(),
-            },
-            success: function(result) {
-                Swal.fire(
-                    'Success!',
-                    result.message,
-                    'success'
-                ).then(function() {
-                    $('#complaint').DataTable().ajax.reload();
-                    $('#EditComplaintModal').hide();
-                });
-            },
-            error: function(error) {
-                $.each(error.responseJSON.errors, function(key, value) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed',
-                        text: value,
-                        timer: '1500'
-                    })
-                });
             }
         });
     });
@@ -443,34 +322,5 @@
             }
         })
     })
-
-    function preview(file) {
-        var _file = file;
-        var csrf_token = $('meta[name="csrf-token"]').attr('content');
-        // console.log(_file);
-        $.ajax({
-            url: "{{ route('check') }}",
-            type: "GET",
-            data: {
-                file: _file,
-                _token: csrf_token
-            },
-            contentType: 'application/x-www-form-urlencoded',
-            beforeSend: function(data, v) {
-                Swal.fire(
-                    'Loading!',
-                    'Loading....',
-                    'info'
-                )
-            },
-            error: function(data, v) {
-                console.log(data);
-            },
-            success: function(data, v) {
-                console.log(data);
-                window.open(data.data, '_blank');
-            }
-        });
-    };
 </script>
 @endsection
