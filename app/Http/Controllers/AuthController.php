@@ -70,8 +70,6 @@ class AuthController extends Controller
                 ]);
 
                 DB::commit();
-
-                $request->session()->regenerate();
                 return HTTPHelper::success([], MSGHelper::MSG_LOGIN_SUCCESS);
             } else {
                 return HTTPHelper::failed(MSGHelper::MSG_LOGIN_FAILED, 422);
