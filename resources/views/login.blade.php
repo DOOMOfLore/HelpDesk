@@ -13,7 +13,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/login/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/login/css/style.css') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 </head>
 
@@ -85,11 +84,6 @@
     // Create article Ajax request.
     $('#SignIn').click(function(e) {
         e.preventDefault();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
         $.ajax({
             url: "{{ route('authenticate') }}",
             method: 'post',
@@ -97,6 +91,7 @@
                 username: $('#username').val(),
                 role: $('#role').val(),
                 password: $('#password').val(),
+                "_token": "{{ csrf_token() }}",
             },
             success: function(data) {
                 Swal.fire({

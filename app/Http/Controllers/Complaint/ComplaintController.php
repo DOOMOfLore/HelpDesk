@@ -26,7 +26,7 @@ class ComplaintController extends Controller
 
     protected $rules = [
         'complaint_name' => 'required',
-        'code_request' => 'required',
+        'code_request' => '',
         'mps_user' => 'required',
         'main_menu' => 'required',
         'categories' => 'required',
@@ -39,7 +39,7 @@ class ComplaintController extends Controller
 
     protected $rules_update = [
         'complaint_name' => 'required',
-        'code_request' => 'required',
+        'code_request' => '',
         'mps_user' => 'required',
         'main_menu' => 'required',
         'categories' => 'required',
@@ -328,11 +328,10 @@ class ComplaintController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = $this->validate($request, $this->rules);
 
         $complaint_name = $validator['complaint_name'];
-        $code_request = $validator['code_request'];
+        $code_request = MainHelper::kode();
         $mps_user = $validator['mps_user'];
         $main_menu = $validator['main_menu'];
         $categories = $validator['categories'];
@@ -400,7 +399,7 @@ class ComplaintController extends Controller
             ->log('Created New Complaint');
 
         $create = Complaint::create($created);
-
+        
         if (!$create) return HTTPHelper::failed(MSGHelper::MSG_CREATE_FAILED, 422);
 
         return HTTPHelper::success([], MSGHelper::MSG_CREATE_SUCCESS);

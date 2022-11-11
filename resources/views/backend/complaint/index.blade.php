@@ -59,11 +59,6 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label for="code_request">Code Request:</label>
-                        <input type="text" class="form-control" name="code_request" id="code_request" value="{{$kode}}" placeholder="Enter Code Request" required readonly>
-                    </div>
-
-                    <div class="form-group">
                         <label for="complaint_name">Complaint Name:</label>
                         <input type="text" class="form-control" name="complaint_name" id="complaint_name" placeholder="Enter Complaint Name" required>
                     </div>
