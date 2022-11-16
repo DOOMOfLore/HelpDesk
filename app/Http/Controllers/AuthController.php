@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
@@ -25,12 +26,17 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
 
+            if (empty($request)) {
+                Auth::logout();
+                return redirect()->route('login');
+            }
+
             $username = $request->input('username');
             $password = $request->input('password');
             $role = str_replace(' ', '', $request->input('role'));
 
             // check role request
-            if (!$role) return HTTPHelper::failed(MSGHelper::MSG_ROLE_REQUIRED, 422);
+            if (!$role) Alert::error('Failed', MSGHelper::MSG_ROLE_REQUIRED);
 
             // check password
             $user = User::where('username', $username)
@@ -38,16 +44,16 @@ class AuthController extends Controller
                 ->first();
 
             // check user password
-            if (!$user || !Hash::check($password, $user->password)) return HTTPHelper::failed(MSGHelper::MSG_LOGIN_FAILED, 422);
+            if (!$user || !Hash::check($password, $user->password)) Alert::error('Failed', MSGHelper::MSG_LOGIN_FAILED);
 
-            $hasRole = $user->hasRole($role);
+            if ($user != null) {
+                if ($user->hasRole($role) == false) {
+                    $user->assignRole($role);
+                }
 
-            if ($hasRole == false) {
-                $user->assignRole($role);
+                // check if user doesn't have role
+                if (!$user->hasRole($role)) Alert::error('Failed', MSGHelper::MSG_ROLE_REQUIRED);
             }
-
-            // check if user doesn't have role
-            if (!$user->hasRole($role)) return HTTPHelper::failed(MSGHelper::MSG_ROLE_REQUIRED, 422);
 
             $credentials = [
                 'username' => $username,
@@ -70,9 +76,11 @@ class AuthController extends Controller
                 ]);
 
                 DB::commit();
-                return HTTPHelper::success([], MSGHelper::MSG_LOGIN_SUCCESS);
+                Alert::success('Sucess!', MSGHelper::MSG_LOGIN_SUCCESS);
+                return redirect()->route('dashboard.index');
             } else {
-                return HTTPHelper::failed(MSGHelper::MSG_LOGIN_FAILED, 422);
+                Alert::error('Failed', MSGHelper::MSG_LOGIN_FAILED);
+                return redirect()->route('login');
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -84,7 +92,6 @@ class AuthController extends Controller
     {
         $request->session()->flush();
         Auth::logout();
-        return HTTPHelper::success([], MSGHelper::MSG_LOGOUT_SUCCESS);
         return redirect()->route('login');
     }
 }

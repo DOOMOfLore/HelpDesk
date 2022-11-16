@@ -35,6 +35,7 @@
 <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('assets/backend/js/main.js') }}"></script>
+@include('sweetalert::alert')
 
 <!-- sambungan -->
 @yield('footers')
@@ -76,7 +77,7 @@
                     success: function(result) {
                         Swal.fire(
                             'Success!',
-                            result.message,
+                            'You have successfully logged out!',
                             'success'
                         ).then(function() {
                             window.location.href = "{{ route('login') }}";
