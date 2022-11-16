@@ -20,5 +20,5 @@ class MSGHelper
     const MSG_DELETE_SUCCESS = 'Data deleted successfully!';
     const MSG_DELETE_FAILED = 'Data not successfully deleted!';
 
-    const DokumenDirectory = 'Dokumen';
+    const DokumenDirectory = 'public/Dokumen';
 }

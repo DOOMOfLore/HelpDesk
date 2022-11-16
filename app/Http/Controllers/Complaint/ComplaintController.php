@@ -139,7 +139,8 @@ class ComplaintController extends Controller
             ->addColumn('Actions', function ($data) {
                 return
                     '<i class="fa fa-pencil text-info btn btn-primary btn-sm m-r-10" data-toggle="tooltip" data-placement="top" title="Edit" id="getEdit" data-id="' . MainHelper::encrypt($data->complaint_id) . '" onchange="validate(this)"></i>' .
-                    '<i data-id="' . MainHelper::encrypt($data->complaint_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>';
+                    '<i data-id="' . MainHelper::encrypt($data->complaint_id) . '" data-toggle="modal" data-target="#DeleteUsersModel" id="getDeleteId" class="fa fa-trash text-info btn btn-danger btn-sm m-r-10" data-toggle="tooltip" title="Delete"></i>'.
+                    '<i onclick="preview(\'' . $data->picture . '\')" class="fa fa-eye text-info btn btn-outline-info btn-sm m-r-10" data-toggle="tooltip" title="Preview File"></i>';
             })
             ->rawColumns(['Actions'])
             ->make(true);

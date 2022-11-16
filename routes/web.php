@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth', 'prevent-back-history']], function () {
             Route::get('get-users', [UsersController::class, 'getUsers'])->name('get-users');
             Route::apiResource('users', UsersController::class);
 
+            Route::post('/preview', [DokumenController::class, 'preview'])->name('preview');
+            
             //complaint
             Route::apiResource('complaint', ComplaintController::class);
             Route::get('get-complaint-all', [ComplaintController::class, 'getComplaint'])->name('get-complaint-all');

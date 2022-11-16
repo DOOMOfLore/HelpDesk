@@ -320,5 +320,31 @@
             }
         })
     })
+
+    function preview(file) {
+        $('#modal-global').modal('show');
+        var _file = file;
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        // console.log(_file);
+        $.ajax({
+            url: "{{ route('preview') }}",
+            type: "POST",
+            data: {
+                file: _file,
+                _token: csrf_token
+            },
+            beforeSend: function(data, v) {
+                $('#modal-title').html('Preview File');
+                $('#modal-body').html('<div align="center"><p>Loading ...</p></div>');
+            },
+            error: function(data, v) {
+                $('#modal-body').html('Terjadi kesalahan..');
+            },
+            success: function(data, v) {
+                // console.log(data);
+                $('#modal-body').html(data);
+            }
+        });
+    };
 </script>
 @endsection

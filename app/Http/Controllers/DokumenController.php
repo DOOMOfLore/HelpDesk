@@ -9,6 +9,7 @@ use App\Models\Complaint\Complaint;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class DokumenController extends Controller
@@ -34,7 +35,7 @@ class DokumenController extends Controller
 
         return view('welcome', compact(array('kode', 'categories', 'main_menu')));
     }
-    
+
     public function storecomplaint(Request $request)
     {
         $validator = $this->validate($request, $this->rules);
@@ -120,5 +121,30 @@ class DokumenController extends Controller
         if (!Storage::exists($filePath)) return HTTPHelper::notFound('file is not found');
         $data = Storage::path($filePath);
         return HTTPHelper::success([$data], 'File Ada');
+    }
+
+    public function preview(Request $request)
+    {
+        $file = $request->file;
+        $extension = File::extension($file);
+        $ext = MainHelper::convertValueToLowerCase($extension);
+        $path = MSGHelper::DokumenDirectory;
+        // dd($ext);
+        $loc_public = Storage::url($path.'/'.$file);
+        // dd($loc_public);
+        $public = Storage::exists($path.'/'.$file);
+        // dd($public);
+        if ($public) {
+            // var_dump("cek");exit;
+            if ($ext == 'pdf' || $ext == 'PDF') {
+                $data = '<div><embed src="' . $loc_public . '" frameborder="0" width="100%" height="800px"></div>';
+                return $data;
+            } elseif ($ext == 'png' || $ext == 'jpg' || $ext == 'PNG' || $ext == 'jpeg') {
+                $data = '<div><embed src="' . $loc_public . '" frameborder="0" width="100%" height="auto"></div>';
+                return $data;
+            }
+        } else {
+            exit('File yang anda cari tidak ditemukan!');
+        };
     }
 }

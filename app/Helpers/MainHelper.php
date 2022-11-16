@@ -46,11 +46,8 @@ class MainHelper
     {
         $path = MSGHelper::DokumenDirectory;
 
-        if (!File::isDirectory($path)) {
-            $basepath =  File::makeDirectory($path, 0777, true, true);
-        }
-        $basepath = $path;
-
+        $basepath =  Storage::makeDirectory($path);
+        
         return $basepath;
     }
 
